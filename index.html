@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sophie Wang — Mechanical Engineering Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #F5F3EE; --surface: #ECEAE3; --text: #1A1917; --muted: #6B6860;
+    --accent: #2A4D3E; --accent-light: #D5E8DF; --rule: rgba(26,25,23,0.12);
+    --mono: 'DM Mono', monospace; --serif: 'Fraunces', serif;
+  }
+  body { font-family: var(--mono); background: var(--bg); color: var(--text); line-height: 1.6; font-size: 14px; }
+  .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 2.5rem; background: var(--bg); border-bottom: 1px solid var(--rule); }
+  .nav-name { font-family: var(--serif); font-weight: 300; font-size: 1rem; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { color: var(--muted); text-decoration: none; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--text); }
+  .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: flex-end; padding: 7rem 2.5rem 4rem; position: relative; overflow: hidden; }
+  .hero-label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 1rem; }
+  .hero-name { font-family: var(--serif); font-size: clamp(3.5rem, 8vw, 7rem); font-weight: 300; line-height: 1; letter-spacing: -0.02em; margin-bottom: 0.5rem; }
+  .hero-name em { font-style: italic; color: var(--accent); }
+  .hero-tagline { font-family: var(--serif); font-size: clamp(1rem, 2vw, 1.35rem); font-weight: 300; color: var(--muted); margin-bottom: 1.5rem; max-width: 580px; line-height: 1.5; }
+  .hero-badges { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2.5rem; }
+  .hero-badge { font-size: 11px; letter-spacing: 0.06em; padding: 0.3rem 0.75rem; border-radius: 2px; border: 1px solid var(--rule); color: var(--muted); background: var(--surface); }
+  .hero-badge.gold { background: #FDF3DC; color: #7A4F0A; border-color: #F0C96B; }
+  .hero-cta { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.75rem; background: var(--accent); color: #fff; text-decoration: none; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; border-radius: 2px; transition: opacity 0.2s; width: fit-content; }
+  .hero-cta:hover { opacity: 0.85; }
+  .grid-bg { position: absolute; top: 0; right: 0; width: 55%; height: 100%; pointer-events: none; opacity: 0.35; }
+  .section { padding: 6rem 2.5rem; border-top: 1px solid var(--rule); max-width: 1100px; margin: 0 auto; }
+  .section-label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.5rem; }
+  .section-title { font-family: var(--serif); font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 300; line-height: 1.1; margin-bottom: 3rem; }
+  .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+  .project-card { background: var(--surface); border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column; }
+  .project-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+  .project-card.featured { border-color: rgba(90,42,122,0.35); border-width: 1.5px; }
+  .project-card.research { border-color: rgba(26,74,110,0.3); border-width: 1.5px; }
+  .project-header { padding: 1.5rem 1.5rem 0; display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
+  .project-type { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; background: var(--accent-light); color: var(--accent); padding: 0.25rem 0.6rem; border-radius: 2px; }
+  .project-type.medical { background: #EEE0F5; color: #5A2A7A; }
+  .project-type.capstone { background: #D5E4F0; color: #1A4A6E; }
+  .project-type.research { background: #E8F0D5; color: #2A4A0E; }
+  .project-icon { width: 36px; height: 36px; border-radius: 2px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .project-icon.purple { background: #5A2A7A; }
+  .project-icon.blue { background: #1A4A6E; }
+  .project-icon.green { background: #2A4A0E; }
+  .project-icon.teal { background: var(--accent); }
+  .project-body { padding: 0 1.5rem 1.5rem; flex: 1; }
+  .project-title { font-family: var(--serif); font-size: 1.2rem; font-weight: 400; margin-bottom: 0.5rem; line-height: 1.25; }
+  .project-desc { font-size: 13px; color: var(--muted); line-height: 1.7; margin-bottom: 1.25rem; }
+  .project-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .tag { font-size: 11px; border: 1px solid var(--rule); color: var(--muted); padding: 0.2rem 0.6rem; border-radius: 2px; background: var(--bg); }
+  .project-footer { padding: 1rem 1.5rem; border-top: 1px solid var(--rule); display: flex; gap: 1rem; align-items: center; }
+  .project-link { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); text-decoration: none; }
+  .project-link:hover { text-decoration: underline; }
+  .project-note { font-size: 11px; color: var(--muted); font-style: italic; }
+  .fda-badge { font-size: 10px; letter-spacing: 0.06em; background: #E8F5E9; color: #2E7D32; border: 1px solid #A5D6A7; padding: 0.2rem 0.6rem; border-radius: 2px; margin-left: auto; white-space: nowrap; }
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+  .skill-cell { background: var(--bg); padding: 1.5rem; }
+  .skill-category { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.75rem; }
+  .skill-list { list-style: none; display: flex; flex-direction: column; gap: 0.3rem; }
+  .skill-list li { font-size: 13px; color: var(--text); display: flex; align-items: center; gap: 0.5rem; }
+  .skill-list li::before { content: ''; display: block; width: 4px; height: 4px; background: var(--accent); border-radius: 50%; flex-shrink: 0; }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+  .about-text p { font-family: var(--serif); font-weight: 300; font-size: 1.05rem; color: var(--muted); line-height: 1.8; margin-bottom: 1rem; }
+  .about-facts { display: flex; flex-direction: column; gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+  .fact-row { display: flex; background: var(--bg); padding: 0.9rem 1rem; gap: 1rem; align-items: baseline; }
+  .fact-label { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); min-width: 100px; flex-shrink: 0; }
+  .fact-value { font-size: 13px; color: var(--text); line-height: 1.5; }
+  .fact-value a { color: var(--accent); text-decoration: none; }
+  .contact-row { display: flex; flex-direction: column; gap: 1rem; max-width: 480px; }
+  .contact-item { display: flex; align-items: center; gap: 1rem; padding: 1.25rem; border: 1px solid var(--rule); background: var(--surface); border-radius: 2px; text-decoration: none; color: var(--text); transition: background 0.2s; }
+  .contact-item:hover { background: var(--accent-light); }
+  .contact-icon { width: 32px; height: 32px; background: var(--accent); border-radius: 2px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .contact-label { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  .contact-value { font-size: 14px; color: var(--text); }
+  footer { border-top: 1px solid var(--rule); padding: 2rem 2.5rem; display: flex; justify-content: space-between; align-items: center; color: var(--muted); font-size: 12px; max-width: 1100px; margin: 0 auto; }
+  @media (max-width: 700px) {
+    .nav-links { display: none; }
+    .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .hero, .section { padding-left: 1.5rem; padding-right: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <span class="nav-name">Sophie Wang</span>
+  <ul class="nav-links">
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <svg class="grid-bg" viewBox="0 0 600 800" xmlns="http://www.w3.org/2000/svg">
+    <defs><pattern id="eng-grid" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="#2A4D3E" stroke-width="0.5"/></pattern></defs>
+    <rect width="600" height="800" fill="url(#eng-grid)"/>
+    <circle cx="300" cy="400" r="180" fill="none" stroke="#2A4D3E" stroke-width="0.8"/>
+    <circle cx="300" cy="400" r="120" fill="none" stroke="#2A4D3E" stroke-width="0.5"/>
+    <line x1="120" y1="400" x2="480" y2="400" stroke="#2A4D3E" stroke-width="0.8"/>
+    <line x1="300" y1="220" x2="300" y2="580" stroke="#2A4D3E" stroke-width="0.8"/>
+    <circle cx="300" cy="400" r="6" fill="#2A4D3E"/>
+  </svg>
+  <p class="hero-label">Mechanical Engineering Portfolio</p>
+  <h1 class="hero-name">Sophie <em>Wang</em></h1>
+  <p class="hero-tagline">Mechanical engineer working at the intersection of biomechanics, medical devices, and embedded systems. Currently at Hospital for Special Surgery; previously R&D at Synchron.</p>
+  <div class="hero-badges">
+    <span class="hero-badge">UC Berkeley B.S. ME · 3.9 GPA</span>
+    <span class="hero-badge">Imperial College London Exchange</span>
+    <span class="hero-badge">Tau Beta Pi</span>
+    <span class="hero-badge">GCP Certified</span>
+    <span class="hero-badge gold">Ironman 70.3 Hawaii — 1st Place Age Group</span>
+  </div>
+  <a href="#projects" class="hero-cta">View Projects ↓</a>
+</section>
+
+<div style="max-width:1100px;margin:0 auto;">
+
+<section class="section" id="projects">
+  <p class="section-label">Work</p>
+  <h2 class="section-title">Featured Projects</h2>
+  <div class="projects-grid">
+
+    <div class="project-card featured">
+      <div class="project-header">
+        <span class="project-type medical">Medical Devices · R&D</span>
+        <div class="project-icon purple">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+      </div>
+      <div class="project-body">
+        <h3 class="project-title">Suture Attachment Verification — Implantable BCI</h3>
+        <p class="project-desc">Led an end-to-end design verification test at Synchron evaluating the mechanical integrity of the suture attachment feature on an implantable brain-computer interface. Defined test parameters through engineering analysis and direct consultation with physicians and subject matter experts to model realistic in vivo loading conditions. Designed and 3D-printed custom test fixtures, executed mechanical testing on an Instron load frame, and authored the full verification report. Test passed and was submitted to the FDA.</p>
+        <div class="project-tags">
+          <span class="tag">Design Verification</span>
+          <span class="tag">Instron</span>
+          <span class="tag">CAD</span>
+          <span class="tag">3D Printing</span>
+          <span class="tag">Medical Devices</span>
+          <span class="tag">Load Analysis</span>
+        </div>
+      </div>
+      <div class="project-footer">
+        <span class="project-note">Details available on request</span>
+        <span class="fda-badge">FDA Submitted</span>
+      </div>
+    </div>
+
+    <div class="project-card featured">
+      <div class="project-header">
+        <span class="project-type medical">Medical Devices · R&D</span>
+        <div class="project-icon purple">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M2 12h4M18 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+        </div>
+      </div>
+      <div class="project-body">
+        <h3 class="project-title">Connector Pullout Screw Verification — Implantable BCI</h3>
+        <p class="project-desc">Owned a second design verification test at Synchron assessing the mechanical sufficiency of the pullout screw securing the device's external connector. Developed load assumptions through engineering analysis and clinical consultation, designed and fabricated test fixtures via CAD and 3D printing, and executed testing on an Instron load frame. Wrote the full protocol and verification report, which passed and was submitted to the FDA.</p>
+        <div class="project-tags">
+          <span class="tag">Design Verification</span>
+          <span class="tag">Instron</span>
+          <span class="tag">CAD</span>
+          <span class="tag">3D Printing</span>
+          <span class="tag">Regulatory Docs</span>
+          <span class="tag">Connector Mechanics</span>
+        </div>
+      </div>
+      <div class="project-footer">
+        <span class="project-note">Details available on request</span>
+        <span class="fda-badge">FDA Submitted</span>
+      </div>
+    </div>
+
+    <div class="project-card research">
+      <div class="project-header">
+        <span class="project-type research">Computational Research</span>
+        <div class="project-icon green">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+      </div>
+      <div class="project-body">
+        <h3 class="project-title">Knee Implant Geometry Optimization</h3>
+        <p class="project-desc">Conducted a parametric computational study in MATLAB to determine optimal geometry for a total knee implant. Varied femoral and tibial curvature and insert thickness across sagittal and frontal planes, generating parametric sweep visualizations of stress distributions. Identified geometry configurations that minimized contact stress and synthesized findings into clear engineering design recommendations.</p>
+        <div class="project-tags">
+          <span class="tag">MATLAB</span>
+          <span class="tag">Parametric Study</span>
+          <span class="tag">Biomechanics</span>
+          <span class="tag">Stress Analysis</span>
+          <span class="tag">Data Visualization</span>
+        </div>
+      </div>
+      <div class="project-footer">
+        <a href="#" class="project-link">Report →</a>
+        <a href="#" class="project-link">GitHub →</a>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-header">
+        <span class="project-type capstone">Capstone · Hardware</span>
+        <div class="project-icon blue">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
+        </div>
+      </div>
+      <div class="project-body">
+        <h3 class="project-title">Automated Multi-Stage Lego Sorting System</h3>
+        <p class="project-desc">Designed and built a fully automated Lego sorting device as a capstone team project, inspired by industrial manufacturing techniques. A vibrating, multi-tiered tower passively segregates pieces by size via graduated apertures and tilt-driven chutes. A final-stage color sorter — built with a color sensor and servo motor — routes pieces into labeled buckets, creating a hands-free end-to-end sorting pipeline.</p>
+        <div class="project-tags">
+          <span class="tag">Arduino</span>
+          <span class="tag">C++</span>
+          <span class="tag">Servo Control</span>
+          <span class="tag">Color Sensor</span>
+          <span class="tag">Mechanical Design</span>
+          <span class="tag">Team Project</span>
+        </div>
+      </div>
+      <div class="project-footer">
+        <a href="#" class="project-link">Photos / Video →</a>
+        <a href="#" class="project-link">GitHub →</a>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-header">
+        <span class="project-type">Embedded Systems</span>
+        <div class="project-icon teal">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="2" x2="9" y2="4"/><line x1="15" y1="2" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="22"/><line x1="15" y1="20" x2="15" y2="22"/><line x1="20" y1="9" x2="22" y2="9"/><line x1="20" y1="14" x2="22" y2="14"/><line x1="2" y1="9" x2="4" y2="9"/><line x1="2" y1="14" x2="4" y2="14"/></svg>
+        </div>
+      </div>
+      <div class="project-body">
+        <h3 class="project-title">Smart Mirror with Custom 3D-Printed Enclosure</h3>
+        <p class="project-desc">Built a smart home display mirror using Raspberry Pi and the MagicMirror² open-source platform. Designed and 3D-printed a custom SolidWorks enclosure to integrate the display, computer, and wiring into a wall-mountable unit. Programmed live integrations including a weather API, real-time clock, and adaptive lighting with output conditioned on external sensor data.</p>
+        <div class="project-tags">
+          <span class="tag">Raspberry Pi</span>
+          <span class="tag">SolidWorks</span>
+          <span class="tag">3D Printing</span>
+          <span class="tag">Linux</span>
+          <span class="tag">API Integration</span>
+          <span class="tag">Sensor I/O</span>
+        </div>
+      </div>
+      <div class="project-footer">
+        <a href="https://magicmirror.builders" class="project-link">MagicMirror² →</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="section" id="skills">
+  <p class="section-label">Capabilities</p>
+  <h2 class="section-title">Skills & Tools</h2>
+  <div class="skills-grid">
+    <div class="skill-cell">
+      <p class="skill-category">Mechanical & CAD</p>
+      <ul class="skill-list">
+        <li>SolidWorks</li>
+        <li>COMSOL</li>
+        <li>3D Printing & Rapid Prototyping</li>
+        <li>Fixture Design & Fabrication</li>
+        <li>Instron Mechanical Testing</li>
+      </ul>
+    </div>
+    <div class="skill-cell">
+      <p class="skill-category">R&D & Regulatory</p>
+      <ul class="skill-list">
+        <li>Design Verification & Validation</li>
+        <li>Test Protocol Authoring</li>
+        <li>FDA Submission Documentation</li>
+        <li>Design of Experiments</li>
+        <li>GCP Certified</li>
+      </ul>
+    </div>
+    <div class="skill-cell">
+      <p class="skill-category">Biomechanics & Clinical</p>
+      <ul class="skill-list">
+        <li>EMG Data Collection</li>
+        <li>3D Motion Capture</li>
+        <li>Force Plate Systems</li>
+        <li>IRB Study Coordination</li>
+        <li>Multi-instrument DAQ</li>
+      </ul>
+    </div>
+    <div class="skill-cell">
+      <p class="skill-category">Programming & Analysis</p>
+      <ul class="skill-list">
+        <li>MATLAB</li>
+        <li>Python</li>
+        <li>C / C++ (Arduino)</li>
+        <li>Data Visualization</li>
+        <li>Parametric Modeling</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="about">
+  <p class="section-label">Background</p>
+  <h2 class="section-title">About Me</h2>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>I'm a mechanical engineer with hands-on experience spanning medical device R&D, clinical biomechanics research, and hardware prototyping. At Synchron I owned FDA-submission-level design verification from first principles to final report. At Hospital for Special Surgery, I lead multi-instrument data acquisition across IRB-approved clinical studies.</p>
+      <p>I'm drawn to work where physical systems meet rigorous engineering — whether that's validating an implantable neural interface or optimizing knee implant geometry in MATLAB. When I'm not in the lab, I compete in triathlons at the world championship level.</p>
+    </div>
+    <div class="about-facts">
+      <div class="fact-row"><span class="fact-label">Degree</span><span class="fact-value">B.S. Mechanical Engineering, Honors · UC Berkeley</span></div>
+      <div class="fact-row"><span class="fact-label">GPA</span><span class="fact-value">3.9 / 4.0</span></div>
+      <div class="fact-row"><span class="fact-label">Exchange</span><span class="fact-value">Imperial College London</span></div>
+      <div class="fact-row"><span class="fact-label">Currently</span><span class="fact-value">Biomechanist I · Hospital for Special Surgery, NYC</span></div>
+      <div class="fact-row"><span class="fact-label">Honors</span><span class="fact-value">Tau Beta Pi · Ironman 70.3 Hawaii 1st Place Age Group · Ironman 70.3 World Championships</span></div>
+      <div class="fact-row"><span class="fact-label">Languages</span><span class="fact-value">English · Ukrainian · French · Spanish</span></div>
+      <div class="fact-row"><span class="fact-label">Resume</span><span class="fact-value"><a href="#">Download PDF →</a></span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="contact">
+  <p class="section-label">Get in Touch</p>
+  <h2 class="section-title">Contact</h2>
+  <div class="contact-row">
+    <a href="mailto:sophie.wang1427@gmail.com" class="contact-item">
+      <div class="contact-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg></div>
+      <div><p class="contact-label">Email</p><p class="contact-value">sophie.wang1427@gmail.com</p></div>
+    </a>
+    <a href="https://github.com/yourhandle" class="contact-item">
+      <div class="contact-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg></div>
+      <div><p class="contact-label">GitHub</p><p class="contact-value">github.com/yourhandle</p></div>
+    </a>
+    <a href="https://linkedin.com/in/yourprofile" class="contact-item">
+      <div class="contact-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></div>
+      <div><p class="contact-label">LinkedIn</p><p class="contact-value">linkedin.com/in/yourprofile</p></div>
+    </a>
+  </div>
+</section>
+
+</div>
+
+<footer>
+  <span>Sophie Wang — Mechanical Engineering Portfolio</span>
+  <span>New York, NY · 2025</span>
+</footer>
+
+</body>
+</html>
